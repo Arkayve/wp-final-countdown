@@ -21,12 +21,13 @@
     src: url('../fonts/lexend/Lexend-Regular.ttf');
 }
 
-body {
+.plugin-container {
     font-family: var(--primary-font);
     box-sizing: border-box;
 }
 
 .hb_container {
-    width: 90%;
+    font-family: var(--primary-font);
+    width: 100%;
     text-align: center;
 }

@@ -30,4 +30,5 @@
     font-family: var(--primary-font);
     width: 100%;
     text-align: center;
+    background-size: cover;
 }

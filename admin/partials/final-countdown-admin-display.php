@@ -14,7 +14,7 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<div class="update-nag notice notice-success inline">
+<div class="update-nag notice notice-success inline plugin-container">
     <h1>Programmer un nouveau bandeau</h1>
     <form id="timerForm" method="POST" action="?action=save-headband">
         <div>

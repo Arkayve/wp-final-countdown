@@ -125,7 +125,7 @@ function displayAdminPlugin()
 	include('partials/final-countdown-admin-display.php');
 }
 
-if (isset($_POST['action']) && $_POST['action'] === 'save-headband') {
+if (isset($_GET['action']) && $_GET['action'] === 'save-headband') {
 	global $wpdb;
     $table_name = $wpdb->prefix . 'headband';
     $wpdb->insert(
@@ -151,3 +151,9 @@ function getAnnouncementInProgress () {
 	$result = $wpdb->get_results( $query );
 	return $result;
 }
+
+function displayHeadband() {
+	include_once ('C:\Users\fwcha\Local Sites\wp-plugin\app\public\wp-content\plugins\final-countdown\public\partials\final-countdown-public-display.php');
+};
+
+add_shortcode('headband', 'displayHeadband');

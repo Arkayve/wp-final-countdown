@@ -2,3 +2,32 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ :root {
+
+    /* FONTS */
+    --primary-font: 'lexend';
+
+    /* COLORS */
+    --light-grey: #f1f1f6;
+    --medium-grey: #e6e6eb;
+    --blue: #0079ff;
+    --light-red: #c65049;
+
+}
+
+@font-face {
+    font-family: 'lexend';
+    src: url('../fonts/lexend/Lexend-Regular.ttf');
+}
+
+.plugin-container {
+    font-family: var(--primary-font);
+    box-sizing: border-box;
+}
+
+.hb_container {
+    font-family: var(--primary-font);
+    width: 100%;
+    text-align: center;
+}

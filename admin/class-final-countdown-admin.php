@@ -54,19 +54,19 @@ class Final_Countdown_Admin {
 
 	}
 
-	function am_countdown_plugin() {
+	function finalCountdownAdmin() {
 
 		add_menu_page(
 			'Final Countdown',
 			'Final Countdown',
 			'administrator',
-			'countdown_plugin',
-			'countdown_plugin_function',
+			'finalCountdownAdmin',
+			'displayAdminPlugin',
 			'dashicons-admin-page',
 			50
 		);
 	
-		add_submenu_page('options-general.php', 'Final Countdown', 'Final Countdown', 'administrator', 'countdown_plugin', 'countdown_plugin_function');
+		add_submenu_page('options-general.php', 'Final Countdown', 'Final Countdown', 'administrator', 'finalCountdownAdmin', 'displayAdminPlugin');
 	
 	}
 
@@ -120,8 +120,34 @@ class Final_Countdown_Admin {
 
 }
 
-function countdown_plugin_function()
+function displayAdminPlugin()
 {
 	include('partials/final-countdown-admin-display.php');
-	wp_enqueue_script('countdown-script', plugin_dir_url(__FILE__) . '/js/final-countdown-admin.js', array('jquery'), null, true);
+}
+
+if (isset($_POST['action']) && $_POST['action'] === 'save-headband') {
+	global $wpdb;
+    $table_name = $wpdb->prefix . 'headband';
+    $wpdb->insert(
+        $table_name,
+        array(
+            'title' => sanitize_text_field($_POST['title']),
+            'title_color' => sanitize_text_field($_POST['titleColor']),
+            'text' => sanitize_text_field($_POST['text']),
+            'text_color' => sanitize_text_field($_POST['textColor']),
+            'bg_color' => sanitize_text_field($_POST['bg-color']),
+            'start_timer' => sanitize_text_field($_POST['startTimer']),
+            'end_timer' => sanitize_text_field($_POST['endTimer']),
+        )
+	);
+	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
+	exit;
+};
+
+function getAnnouncementInProgress () {
+	global $wpdb;
+	$headband = $wpdb->prefix . 'headband';
+	$query = "SELECT id_headband, title, title_color, text, text_color, bg_color, DATE_FORMAT(start_timer, '%d/%m/%Y à %H:%i') AS start_timer, DATE_FORMAT(end_timer, '%d/%m/%Y à %H:%i') AS end_timer FROM wp_headband WHERE end_timer > NOW();";
+	$result = $wpdb->get_results( $query );
+	return $result;
 }

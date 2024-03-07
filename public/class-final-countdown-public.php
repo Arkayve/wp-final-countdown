@@ -54,12 +54,6 @@ class Final_Countdown_Public {
 
 	}
 
-	function countdown_plugin_function_public() {
-		include('partials/final-countdown-public-display.php');
-		wp_enqueue_script('countdown-script', plugin_dir_url(__FILE__) . '../admin/js/final-countdown-admin.js', array('jquery'), null, true);
-	}
-
-
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *

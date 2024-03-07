@@ -14,9 +14,3 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<div>
-    <h3>Temps restant :</h3>
-
-    <!-- <div id="timerTitle"></div> -->
-    <div id="resultatTimerClient"></div>
-</div>

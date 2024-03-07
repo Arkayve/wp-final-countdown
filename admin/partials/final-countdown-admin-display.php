@@ -14,31 +14,38 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<br>
 <div class="update-nag notice notice-success inline">
-    <h2>Programmation du Timer</h2>
-
-    <form id="timerForm">
-        <label for="timerTitle">Titre du Timer :</label>
-        <input type="text" id="timerTitle" name="timerTitle" required>
-
-        <label for="timerDate">Date:</label>
-        <input type="date" id="timerDate" name="timerDate" required>
-
-        <label for="timerTime">Heure:</label>
-        <input type="time" id="timerTime" name="timerTime" required>
-
-        <button type="button" onclick="scheduleTimerForAdmin()">Programmer et afficher le Timer</button>
-
-        <button type="button" onclick="stopAndResetTimer(); stopTimerForClient();">Arrêter et le Timer</button>
-
+    <h1>Programmer un nouveau bandeau</h1>
+    <form id="timerForm" method="POST" action="?action=save-headband">
+        <div>
+            <label for="title">Titre du bandeau :</label>
+            <input type="text" id="title" name="title" rows="1" cols="50" required>
+            <label for="titleColor">Couleur du titre :</label>
+            <input type="color" id="titleColor" name="titleColor" value="#000000">
+        </div>
+        <div>
+            <label for="text">Texte :</label>
+            <input type="text" id="text" name="text" rows="1" cols="50"></input>
+            <label for="textColor">Couleur du texte :</label>
+            <input type="color" id="textColor" name="textColor" value="#000000">
+        </div>
+        <div>
+            <label for="bg-color">Ajouter une couleur de fond au bandeau :</label>
+            <input type="color" id="bg-color" name="bg-color" value="#ffffff">
+        </div> 
+        <div>
+            <label for="bg-img">Ajouter une image de fond au bandeau :</label>
+            <input name="bg-img" type="file" id="bg-img" accept="png, jpg">
+        </div>
+        <div>
+            <label for="startTimer">Date de début :</label>
+            <input type="datetime-local" id="startTimer" name="startTimer" required>
+            <label for="endTimer">Date de fin :</label>
+            <input type="datetime-local" id="endTimer" name="endTimer" required>
+        </div>
+        <input id="create" type="submit" value="Créer le bandeau">
     </form>
-
-    <div>
-        <h3>Temps restant :</h3>
-
-        <!-- <div id="timerTitle"></div> -->
-        <div id="resultatTimerClient"></div>
-    </div>
-
 </div>
+
+<?php
+include ('announcement_in_progress.php');

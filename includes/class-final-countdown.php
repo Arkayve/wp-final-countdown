@@ -157,7 +157,7 @@ class Final_Countdown {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'am_countdown_plugin' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'finalCountdownAdmin' );
 	}
 
 	/**
@@ -174,7 +174,6 @@ class Final_Countdown {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'countdown_plugin_function_public' );
 	}
 
 	/**

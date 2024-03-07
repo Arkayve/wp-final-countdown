@@ -29,4 +29,5 @@ body {
 .hb_container {
     width: 90%;
     text-align: center;
+    background-size: cover;
 }

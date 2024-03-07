@@ -125,7 +125,7 @@ function displayAdminPlugin()
 	include('partials/final-countdown-admin-display.php');
 }
 
-if (isset($_POST['action']) && $_POST['action'] === 'save-headband') {
+if (isset($_GET['action']) && $_GET['action'] === 'save-headband') {
 	global $wpdb;
     $table_name = $wpdb->prefix . 'headband';
     $wpdb->insert(
@@ -140,6 +140,10 @@ if (isset($_POST['action']) && $_POST['action'] === 'save-headband') {
             'end_timer' => sanitize_text_field($_POST['endTimer']),
         )
 	);
+	if (isset($_FILES['bg-img'])) {
+		$lastId = $wpdb->insert_id;
+		include ('file-upload.php');
+	};
 	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
 	exit;
 };
@@ -147,7 +151,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'save-headband') {
 function getAnnouncementInProgress () {
 	global $wpdb;
 	$headband = $wpdb->prefix . 'headband';
-	$query = "SELECT id_headband, title, title_color, text, text_color, bg_color, DATE_FORMAT(start_timer, '%d/%m/%Y à %H:%i') AS start_timer, DATE_FORMAT(end_timer, '%d/%m/%Y à %H:%i') AS end_timer FROM wp_headband WHERE end_timer > NOW();";
+	$query = "SELECT id_headband, title, title_color, text, text_color, bg_color, DATE_FORMAT(start_timer, '%d/%m/%Y à %H:%i') AS start_timer, DATE_FORMAT(end_timer, '%d/%m/%Y à %H:%i') AS end_timer, file_name FROM wp_headband LEFT JOIN wp_headband_files USING (id_headband) WHERE end_timer > NOW();";
 	$result = $wpdb->get_results( $query );
 	return $result;
 }

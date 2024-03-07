@@ -16,7 +16,7 @@
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="update-nag notice notice-success inline">
     <h1>Programmer un nouveau bandeau</h1>
-    <form id="timerForm" method="POST" action="?action=save-headband">
+    <form id="timerForm" method="POST" action="?action=save-headband" enctype="multipart/form-data">
         <div>
             <label for="title">Titre du bandeau :</label>
             <input type="text" id="title" name="title" rows="1" cols="50" required>

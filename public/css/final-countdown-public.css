@@ -2,6 +2,17 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+.hb_container h2,
+.hb_container h3,
+.hb_container p {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    box-sizing: border-box;
+}
 
  :root {
 
@@ -26,8 +37,17 @@
     box-sizing: border-box;
 }
 
+.plugin-container-row {
+    margin: 20px;
+}
+
 .hb_container {
     font-family: var(--primary-font);
     width: 100%;
     text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }

@@ -26,9 +26,35 @@
     box-sizing: border-box;
 }
 
+.plugin-container-row {
+    margin: 20px;
+}
+
 .hb_container {
     font-family: var(--primary-font);
     width: 100%;
     text-align: center;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.headband_utilities {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    background-color: var(--medium-grey);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.headband_utilities input {
+    font-size: 30px;
+}
+
+.util {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

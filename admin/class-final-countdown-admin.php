@@ -120,11 +120,14 @@ class Final_Countdown_Admin {
 
 }
 
+session_start();
+
 function displayAdminPlugin()
 {
 	include('partials/final-countdown-admin-display.php');
 }
 
+// Create new headband
 if (isset($_GET['action']) && $_GET['action'] === 'save-headband') {
 	global $wpdb;
     $table_name = $wpdb->prefix . 'headband';
@@ -138,20 +141,88 @@ if (isset($_GET['action']) && $_GET['action'] === 'save-headband') {
             'bg_color' => sanitize_text_field($_POST['bg-color']),
             'start_timer' => sanitize_text_field($_POST['startTimer']),
             'end_timer' => sanitize_text_field($_POST['endTimer']),
+			'display_headband' => true,
+			'display_text' => true,
+			'height' => sanitize_text_field($_POST['height']),
         )
 	);
-	if (isset($_FILES['bg-img'])) {
+	if (strlen($_FILES['bg-img']['name']) > 0) {
 		$lastId = $wpdb->insert_id;
 		include ('file-upload.php');
 	};
 	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
 	exit;
+}
+
+// Delete headband
+else if (isset($_GET['action']) && $_GET['action'] === 'del-headband' && isset($_GET['id'])) {
+	global $wpdb;
+	$query = "SELECT id_file, file_name FROM wp_headband_files WHERE id_headband = " . intval($_GET['id']);
+	$result = $wpdb->get_results( $query );
+	if (!empty($result) && isset($result[0])) {
+		$wpdb->delete('wp_headband_files', array('id_headband' => $_GET['id']));
+		unlink('C:/Users/fwcha/Local Sites/wp-plugin/app/public/wp-content/plugins/final-countdown/admin/uploads/' . $result[0]->file_name);		
+	};
+	$wpdb->delete('wp_headband', array('id_headband' => $_GET['id']));
+	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
+	exit;
+}
+
+// Get headband to modify
+else if (isset($_GET['action']) && $_GET['action'] === 'mod-headband' && isset($_GET['id'])) {
+	global $wpdb;
+	$query = "SELECT * FROM wp_headband LEFT JOIN wp_headband_files USING (id_headband) WHERE id_headband = " . $_GET['id'];
+	$result = $wpdb->get_results( $query );
+	$_SESSION['result'] = $result[0];
+	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
+	exit;
+}
+
+// Update headband
+else if (isset($_GET['action']) && $_GET['action'] === 'modify-headband' && isset($_GET['id'])) {
+	global $wpdb;
+	$wpdb->update('wp_headband', array(
+		'title' => sanitize_text_field($_POST['title']),
+		'title_color' => sanitize_text_field($_POST['titleColor']),
+		'text' => sanitize_text_field($_POST['text']),
+		'text_color' => sanitize_text_field($_POST['textColor']),
+		'bg_color' => sanitize_text_field($_POST['bg-color']),
+		'start_timer' => sanitize_text_field($_POST['startTimer']),
+		'end_timer' => sanitize_text_field($_POST['endTimer']),
+		'height' => sanitize_text_field($_POST['height']),
+	), array(
+		'id_headband' => $_GET['id']
+	));
+	if (strlen($_FILES['bg-img']['name']) > 0) {
+		$lastId = $_GET['id'];
+		include ('file-modify.php');
+	};
+	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
+	exit;
+}
+
+// Display headband
+else if (isset($_GET['action']) && $_GET['action'] === 'display-headband' && isset($_GET['id'])) {
+	global $wpdb;
+	$displayHeadband = intval($_POST['display-headband']) === 1 ? false : true;
+	$wpdb->update('wp_headband', array('display_headband' => $displayHeadband), array('id_headband' => $_GET['id']));
+	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
+	exit;
+}
+
+// Display text
+else if (isset($_GET['action']) && $_GET['action'] === 'display-text' && isset($_GET['id'])) {
+	global $wpdb;
+	$displayText = intval($_POST['display-text']) === 1 ? false : true;
+	$wpdb->update('wp_headband', array('display_text' => $displayText), array('id_headband' => $_GET['id']));
+	header('Location: http://wp-plugin.local/wp-admin/admin.php?page=finalCountdownAdmin');
+	exit;
 };
 
-function getAnnouncementInProgress () {
+function getAnnouncementInProgress ($bool) {
 	global $wpdb;
-	$headband = $wpdb->prefix . 'headband';
-	$query = "SELECT id_headband, title, title_color, text, text_color, bg_color, DATE_FORMAT(start_timer, '%d/%m/%Y à %H:%i') AS start_timer, DATE_FORMAT(end_timer, '%d/%m/%Y à %H:%i') AS end_timer, file_name FROM wp_headband LEFT JOIN wp_headband_files USING (id_headband) WHERE end_timer > NOW();";
+	$display = $bool ? ' AND start_timer < NOW() AND display_headband = 1' : '';
+	$query = "SELECT id_headband, title, title_color, text, text_color, bg_color, DATE_FORMAT(start_timer, '%d/%m/%Y à %H:%i') AS start_timer, DATE_FORMAT(end_timer, '%d/%m/%Y à %H:%i') AS end_timer, display_headband, display_text, height, file_name FROM wp_headband LEFT JOIN wp_headband_files USING (id_headband) WHERE end_timer > NOW()" . $display;
 	$result = $wpdb->get_results( $query );
 	return $result;
 }

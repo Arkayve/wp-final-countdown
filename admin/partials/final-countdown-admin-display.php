@@ -57,7 +57,7 @@ foreach ($resultForModify as $row) {
     <div class="update-nag notice notice-success inline plugin-container">
         <h2>Modifier un bandeau</h2>
         <form id="timerForm" method="POST">
-        <input type="hidden" name="id_headband" value="<?= $row->id_headband ?>">
+            <input type="hidden" name="id_headband" value="<?= $row->id_headband ?>">
             <div>
                 <label for="title">Titre du bandeau :</label>
                 <input type="text" id="title" name="title" rows="1" cols="50" value="<?= $row->title ?>" required>
